@@ -1,0 +1,43 @@
+{
+  "name": "bdk_flutter",
+  "version": "0.0.1",
+  "summary": "Flutter wrapper that bundles BDK native binaries for iOS.",
+  "description": "Builds BDK Rust library as an XCFramework and vendors it for runtime FFI from Dart.",
+  "homepage": "https://github.com/nuCode-Tech/bdk-ffi",
+  "license": {
+    "type": "MIT"
+  },
+  "authors": {
+    "Bitcoin Dev Kit Developers": "dev@bitcoindevkit.org"
+  },
+  "source": {
+    "path": "."
+  },
+  "source_files": "Classes/**/*",
+  "platforms": {
+    "ios": "12.0"
+  },
+  "swift_versions": "5.0",
+  "dependencies": {
+    "Flutter": [
+
+    ]
+  },
+  "vendored_frameworks": "Frameworks/BdkFFI.xcframework",
+  "script_phases": {
+    "name": "Build BDK XCFramework",
+    "execution_position": "before_compile",
+    "script": "bash \"${PODS_TARGET_SRCROOT}/scripts/build_ios_xcframework.sh\""
+  },
+  "pod_target_xcconfig": {
+    "DEAD_CODE_STRIPPING": "NO",
+    "OTHER_LDFLAGS": "-force_load \"$(PODS_TARGET_SRCROOT)/libbdkffi.a\""
+  },
+  "user_target_xcconfig": {
+    "DEFINES_MODULE": "YES",
+    "EXCLUDED_ARCHS[sdk=iphonesimulator*]": "i386",
+    "DEAD_CODE_STRIPPING": "NO",
+    "OTHER_LDFLAGS": "-force_load \"$(PODS_TARGET_SRCROOT)/libbdkffi.a\""
+  },
+  "swift_version": "5.0"
+}
