@@ -9,8 +9,8 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  bdk_dart:
-    path: ..
+  bdk_flutter:
+    path: ../../bdk_flutter
 
 dev_dependencies:
   integration_test:
