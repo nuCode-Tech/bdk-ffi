@@ -10,7 +10,7 @@ dependencies:
   flutter:
     sdk: flutter
   bdk_flutter:
-    path: ../../bdk_flutter
+    path: ..
 
 dev_dependencies:
   integration_test:

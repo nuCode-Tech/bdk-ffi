@@ -1,5 +1,6 @@
 PODS:
-  - bdk_flutter (0.0.1)
+  - bdk_flutter (0.0.1):
+    - Flutter
   - Flutter (1.0.0)
   - integration_test (0.0.1):
     - Flutter
@@ -18,7 +19,7 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/integration_test/ios"
 
 SPEC CHECKSUMS:
-  bdk_flutter: 84faf3f0f896dba86b542255c635c0fa4ede12f7
+  bdk_flutter: 384f7864b825ff8dcd17057af51f04d0888e01b3
   Flutter: cabc95a1d2626b1b06e7179b784ebcf0c0cde467
   integration_test: 252f60fa39af5e17c3aa9899d35d908a0721b573
 

@@ -36,14 +36,14 @@ packages:
   bdk_dart:
     dependency: transitive
     description:
-      path: ".."
+      path: "../../bdk-dart"
       relative: true
     source: path
     version: "1.0.0+1"
   bdk_flutter:
     dependency: "direct main"
     description:
-      path: "../../bdk_flutter"
+      path: ".."
       relative: true
     source: path
     version: "0.0.1"
