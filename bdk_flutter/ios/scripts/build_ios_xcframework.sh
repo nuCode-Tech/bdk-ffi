@@ -41,6 +41,13 @@ echo "Using Rust sources at: ${RUST_DIR}"
 
 cd "${RUST_DIR}"
 
+# Ensure host toolchain compilers resolve correctly inside CocoaPods env
+export CC=/usr/bin/cc
+export CXX=/usr/bin/c++
+export IPHONEOS_DEPLOYMENT_TARGET=13.0
+export CARGO_TARGET_X86_64_APPLE_DARWIN_LINKER=/usr/bin/cc
+export CARGO_TARGET_AARCH64_APPLE_DARWIN_LINKER=/usr/bin/cc
+
 rustup target add aarch64-apple-ios x86_64-apple-ios aarch64-apple-ios-sim >/dev/null
 
 echo "Building static libraries..."
@@ -63,5 +70,21 @@ xcodebuild -create-xcframework \
   -output "${XCFRAMEWORK_PATH}"
 
 echo "BdkFFI.xcframework ready at ${XCFRAMEWORK_PATH}"
+
+# Expose a stable lib path for -force_load from the app target.
+# Use the active platform to select the correct archive from the XCFramework.
+DEST_LIB_PATH="${REAL_IOS_DIR}/libbdkffi.a"
+if [[ "${PLATFORM_NAME:-}" == "iphonesimulator" ]]; then
+  SRC_LIB_PATH="${XCFRAMEWORK_PATH}/ios-arm64_x86_64-simulator/libbdkffi.a"
+else
+  SRC_LIB_PATH="${XCFRAMEWORK_PATH}/ios-arm64/libbdkffi.a"
+fi
+if [[ -f "${SRC_LIB_PATH}" ]]; then
+  cp -f "${SRC_LIB_PATH}" "${DEST_LIB_PATH}"
+  echo "Prepared lib for force_load at ${DEST_LIB_PATH}"
+else
+  echo "Expected library not found at ${SRC_LIB_PATH}"
+  exit 1
+fi
 
 

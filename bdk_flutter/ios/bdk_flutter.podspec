@@ -9,6 +9,8 @@ Pod::Spec.new do |spec|
   spec.source       = { :path => '.' }
   spec.source_files = 'Classes/**/*'
   spec.platform     = :ios, '12.0'
+  spec.swift_version = '5.0'
+  spec.dependency 'Flutter'
 
   # Vendored framework produced by our build script.
   spec.vendored_frameworks = 'Frameworks/BdkFFI.xcframework'
@@ -18,6 +20,19 @@ Pod::Spec.new do |spec|
     :name => 'Build BDK XCFramework',
     :execution_position => :before_compile,
     :script => 'bash "${PODS_TARGET_SRCROOT}/scripts/build_ios_xcframework.sh"'
+  }
+
+  # Force-link static library symbols so they are visible to dlsym()
+  # Simulator vs device paths inside the .xcframework differ.
+  spec.pod_target_xcconfig = {
+    'DEAD_CODE_STRIPPING' => 'NO',
+    'OTHER_LDFLAGS' => '-force_load "$(PODS_TARGET_SRCROOT)/libbdkffi.a"'
+  }
+  spec.user_target_xcconfig = {
+    'DEFINES_MODULE' => 'YES',
+    'EXCLUDED_ARCHS[sdk=iphonesimulator*]' => 'i386',
+    'DEAD_CODE_STRIPPING' => 'NO',
+    'OTHER_LDFLAGS' => '-force_load "$(PODS_TARGET_SRCROOT)/libbdkffi.a"'
   }
 end
 
